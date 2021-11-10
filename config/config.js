@@ -10,18 +10,12 @@ const creds = {
     dialect: env.DB_DIALECT
   },
   test: {
-    username: "uajkkboauvzorj",
-    password: "c85f6e07fe87df0c122ff23b2c789d30f1b6358c672514bd5090cc9c1a0d83c7",
-    database: "dfoddo1uoqr4rh",
-    host: "ec2-54-73-110-26.eu-west-1.compute.amazonaws.com",
+    username: "root",
+    password: "root",
+    database: "dbvoyageur",
+    host: "127.0.0.1",
     port: "5432",
-    dialect: "postgresql",
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false
-      }
-    }
+    dialect: "postgresql"
   },
   production: {
     username: env.DB_USER,

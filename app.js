@@ -24,6 +24,8 @@ const usersRepository = new UsersRepository();
 const geolocalisationsRepository = new GeolocalisationsRepository();
 const annoncesRepository = new AnnoncesRepository();
 
+app.use(express.static('public'));
+
 var server = http.createServer(app).listen(port, () => {
   var desc = "Adresse du serveur: ";
   var adresse = ` http://localhost:${port}`.green.bold;
