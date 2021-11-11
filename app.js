@@ -34,7 +34,7 @@ var server = http.createServer(app).listen(port, () => {
   console.log(`################################################################`.yellow.bold);
 });
 
-var io = require('socket.io')({ allowEIO3: true, transports: ['wss'], upgrade: false }).listen(server, {
+var io = require('socket.io')({ allowEIO3: true, transports: ['websocket', 'ws', 'wss'], upgrade: false }).listen(server, {
   path: '/socket.io-client'
 });
 // io.set('transports', ['websocket']);
