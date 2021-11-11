@@ -3,7 +3,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var path = require('path');
 var app = express();
-var port = 4000;
+var port = 8000;
 var http = require('http');
 var cors = require('cors');
 require('colors');
@@ -34,7 +34,10 @@ var server = http.createServer(app).listen(port, () => {
   console.log(`################################################################`.yellow.bold);
 });
 
-var io = require('socket.io')({ allowEIO3: true }).listen(server);
+var io = require('socket.io')({ allowEIO3: true, transports: ['websocket', 'ws', 'wss'], upgrade: false }).listen(server, {
+  path: '/socket.io-client'
+});
+// io.set('transports', ['websocket']);
 
 app.use(logger('dev'));
 app.use(express.json());
