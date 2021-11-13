@@ -4,7 +4,6 @@ var logger = require('morgan');
 var path = require('path');
 var app = express();
 const port = process.env.PORT || 8000;
-const router = require('./router');
 var http = require('http');
 var cors = require('cors');
 const socketio = require('socket.io');
@@ -52,7 +51,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cors());
-app.use(router);
 
 app.use('/users', userRoutes(express, usersController(usersRepository)));
 app.use('/geolocalisations', geolocalisationRoutes(express, geolocalisationsController(geolocalisationsRepository)));
