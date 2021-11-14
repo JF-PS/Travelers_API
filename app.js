@@ -11,23 +11,6 @@ const port = process.env.PORT || 8000;
 
 app.use(cors());
 
-io.on('connect', (socket) => {
-
-  socket.on('sendMessage', (message) => {
-    io.emit('message', message);
-  });
-
-  socket.on('disconnect', () => {
-    console.log(" ================================================ ")
-    console.log(" USER IS DISCONNECT ")
-  });
-
-  socket.on('sendLocation', ({ id, lat, lng }) => {
-    io.emit('location', { id, lat, lng });
-  });
-
-});
-
 const UsersRepository = require('./repositories/users.pg');
 const AnnoncesRepository = require('./repositories/annonces.pg.js');
 const GeolocalisationsRepository = require('./repositories/geolocalisations.pg');
@@ -43,6 +26,26 @@ const annonceRoutes = require('./routes/annonces.route');
 const usersRepository = new UsersRepository();
 const geolocalisationsRepository = new GeolocalisationsRepository();
 const annoncesRepository = new AnnoncesRepository();
+
+io.on('connect', (socket) => {
+
+  socket.on('sendMessage', (message) => {
+    io.emit('message', message);
+  });
+
+  socket.on('disconnect', () => {
+    console.log(" ================================================ ")
+    console.log(" USER IS DISCONNECT ")
+  });
+
+  socket.on('sendLocation', ({ id, lat, lng }) => {
+    usersRepository.updateLocation(id, { lat, lng })
+    io.emit('location', { id, lat, lng });
+  });
+
+});
+
+
 
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
