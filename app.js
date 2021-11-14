@@ -7,7 +7,7 @@ require('colors');
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
-const port = process.env.PORT || 8000;
+const port = 8000;
 
 app.use(cors());
 
