@@ -1,4 +1,4 @@
-var express = require('express');
+express = require('express');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var path = require('path');
@@ -26,18 +26,13 @@ const annoncesRepository = new AnnoncesRepository();
 
 app.use(express.static('public'));
 
-var server = http.createServer(app).listen(port, () => {
+const server = http.createServer(app).listen(port, () => {
   var desc = "Adresse du serveur: ";
   var adresse = ` http://localhost:${port}`.green.bold;
   console.log(`################################################################`.yellow.bold);
   console.log(desc + adresse);
   console.log(`################################################################`.yellow.bold);
 });
-
-var io = require('socket.io')({ allowEIO3: true, transports: ['websocket', 'ws', 'wss'], upgrade: false }).listen(server, {
-  path: '/socket.io-client'
-});
-// io.set('transports', ['websocket']);
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -51,22 +46,6 @@ app.use('/users', userRoutes(express, usersController(usersRepository)));
 app.use('/geolocalisations', geolocalisationRoutes(express, geolocalisationsController(geolocalisationsRepository)));
 app.use('/annonces', annonceRoutes(express, annoncesController(annoncesRepository)));
 
-io.on('connection', (socket) => {
-  console.log(`=================================== Web Socket =======================================`.blue.bold);
-  // console.log(socket);
-  console.log(`a user is connected`.green.bold);
-  socket.on('disconnect', () => {
-    console.log(`a user is disconnected`.red.bold);
-  });
-  socket.on('message', ({ name, message }) => {
-    io.emit('message', { name, message });
-    console.log(`message recu : ${message}`.magenta.bold);
-  });
-  socket.on('userLocation', ({ id, lat, lng }) => {
-    console.log(`Le user id(${id}) à été localisé aux coordonnées : [lat : ${lat} | lng : ${lng}]`.magenta.bold);
-    usersRepository.updateLocation(id, {lat, lng});
-    io.emit('travelersNewLocation', { id, lat, lng });
-  });
-});
+
 
  module.exports = app;
