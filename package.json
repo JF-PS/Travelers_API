@@ -1,11 +1,14 @@
 {
-  "name": "node-sequelize",
-  "version": "0.0.0",
+  "name": "allo_voyageur_api",
+  "version": "1.0.0",
   "private": true,
-  "description": "Api du voyageur",
+  "description": "Api_Allo_voyageur",
   "scripts": {
     "start": "node ./bin/www"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "@types/sequelize": "^4.28.10",
     "bcrypt": "^5.0.1",
