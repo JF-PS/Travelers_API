@@ -434,9 +434,20 @@
                     "field": "id",
                     "seqType": "Sequelize.INTEGER"
                 },
+                "chat_id": {
+                    "field": "chat_id",
+                    "allowNull": true,
+                    "references": {
+                        "model": "Chats",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
                 "content": {
                     "field": "content",
-                    "seqType": "Sequelize.STRING"
+                    "seqType": "Sequelize.TEXT"
                 },
                 "user_id": {
                     "field": "user_id",
@@ -449,15 +460,8 @@
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.INTEGER"
                 },
-                "chat_id": {
-                    "field": "chat_id",
-                    "allowNull": true,
-                    "references": {
-                        "model": "Chats",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "onUpdate": "CASCADE",
+                "recipient_id": {
+                    "field": "recipient_id",
                     "seqType": "Sequelize.INTEGER"
                 },
                 "createdAt": {

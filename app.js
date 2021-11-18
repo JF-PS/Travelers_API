@@ -10,32 +10,54 @@ const io = socketio(server);
 const port = process.env.PORT || 8000;
 
 app.use(cors());
-
 const UsersRepository = require('./repositories/users.pg');
 const AnnoncesRepository = require('./repositories/annonces.pg.js');
+const ChatsRepository = require('./repositories/chats.pg.js');
+const MessagesRepository = require('./repositories/messages.pg.js');
 const GeolocalisationsRepository = require('./repositories/geolocalisations.pg');
+const Spots_PublicationsRepository = require('./repositories/spots_publications.pg');
 
 const usersController = require('./controllers/users.controller');
 const geolocalisationsController = require('./controllers/geolocalisations.controller');
+const spots_publicationsController = require('./controllers/spots_publications.controller');
 const annoncesController = require('./controllers/annonces.controller');
+const chatsController = require('./controllers/chats.controller');
+const messagesController = require('./controllers/messages.controller');
 
 const userRoutes = require('./routes/users.route');
 const geolocalisationRoutes = require('./routes/geolocalisations.route');
+const spot_publicationRoutes = require('./routes/spots_publications.route');
 const annonceRoutes = require('./routes/annonces.route');
+const chatRoutes = require('./routes/chats.route');
+const messageRoutes = require('./routes/messages.route');
 
 const usersRepository = new UsersRepository();
 const geolocalisationsRepository = new GeolocalisationsRepository();
+const spots_publicationsRepository = new Spots_PublicationsRepository();
 const annoncesRepository = new AnnoncesRepository();
+const chatsRepository = new ChatsRepository();
+const messagesRepository = new MessagesRepository();
 
 io.on('connect', (socket) => {
 
-  socket.on('sendMessage', (message) => {
-    io.emit('message', message);
-  });
-
+ console.log(`=================================== Web Socket =======================================`.blue.bold);
+  // console.log(socket);
+  console.log(`a user is connected`.green.bold);
   socket.on('disconnect', () => {
-    console.log(" ================================================ ")
-    console.log(" USER IS DISCONNECT ")
+    console.log(`a user is disconnected`.red.bold);
+  });
+  socket.on('message', ({ name, message, userId, chatId, recipientId }) => {
+    console.log(`message recu : ${message}`.magenta.bold);
+    messagesRepository.createMessage({
+      content: message,
+      user_id: userId,
+      chat_id: chatId,
+      recipient_id: recipientId
+    });
+
+    io.emit('message', { name, message });
+    console.log(name)
+    
   });
 
   socket.on('sendLocation', ({ id, lat, lng }) => {
@@ -44,8 +66,6 @@ io.on('connect', (socket) => {
   });
 
 });
-
-
 
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -57,10 +77,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 app.use('/users', userRoutes(express, usersController(usersRepository)));
 app.use('/geolocalisations', geolocalisationRoutes(express, geolocalisationsController(geolocalisationsRepository)));
+app.use('/spots_publications', spot_publicationRoutes(express, spots_publicationsController(spots_publicationsRepository)));
 app.use('/annonces', annonceRoutes(express, annoncesController(annoncesRepository)));
+app.use('/chats', chatRoutes(express, chatsController(chatsRepository)));
+app.use('/messages', messageRoutes(express, messagesController(messagesRepository)));
 
 server.listen(port, () => {
   var desc = "Adresse du serveur: ";
@@ -69,4 +91,5 @@ server.listen(port, () => {
   console.log(desc + adresse);
   console.log(`################################################################`.yellow.bold);
 });
+
 module.exports = app;

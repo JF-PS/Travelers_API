@@ -20,7 +20,7 @@ const Sequelize = require("sequelize");
  * createTable() => "Ads", deps: [Vehicles, Adresse_Vehicles, Users, Journeys]
  * createTable() => "Geolocalisations", deps: [Users]
  * createTable() => "Ads_And_Types", deps: [Ads, TypeAds]
- * createTable() => "Messages", deps: [Users, Chats]
+ * createTable() => "Messages", deps: [Chats, Users]
  * createTable() => "Spots_Publications", deps: [Users]
  * createTable() => "Reviews", deps: [Users, Spots_Publications]
  * createTable() => "Spots_Favorites", deps: [Spots_Publications, Users]
@@ -31,7 +31,7 @@ const Sequelize = require("sequelize");
 const info = {
   revision: 1,
   name: "migration",
-  created: "2021-11-06T16:48:07.904Z",
+  created: "2021-11-18T11:56:40.271Z",
   comment: "",
 };
 
@@ -659,15 +659,6 @@ const migrationCommands = (transaction) => [
           primaryKey: true,
           allowNull: false,
         },
-        content: { type: Sequelize.STRING, field: "content" },
-        user_id: {
-          type: Sequelize.INTEGER,
-          onUpdate: "CASCADE",
-          onDelete: "NO ACTION",
-          references: { model: "Users", key: "id" },
-          allowNull: true,
-          field: "user_id",
-        },
         chat_id: {
           type: Sequelize.INTEGER,
           onUpdate: "CASCADE",
@@ -676,6 +667,16 @@ const migrationCommands = (transaction) => [
           allowNull: true,
           field: "chat_id",
         },
+        content: { type: Sequelize.TEXT, field: "content" },
+        user_id: {
+          type: Sequelize.INTEGER,
+          onUpdate: "CASCADE",
+          onDelete: "NO ACTION",
+          references: { model: "Users", key: "id" },
+          allowNull: true,
+          field: "user_id",
+        },
+        recipient_id: { type: Sequelize.INTEGER, field: "recipient_id" },
         createdAt: {
           type: Sequelize.DATE,
           field: "createdAt",
