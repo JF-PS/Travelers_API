@@ -181,12 +181,22 @@ module.exports = class UsersRepository {
       const point = Sequelize.fn(`POINT(${lat} ${lng})`);
       return await new Promise((resolve, reject) => {
         User.findAll({
+          include: [{ 
+            model: Geolocalisation, 
+            as: 'geolocalisation',
+            where: { 
+              authorization: true
+            }
+          },
+        ],
           attributes: [
             'id', 
             'first_name', 
             'last_name', 
-            ['ST_X(location::geometry)', 'lat'], 
-            ['ST_Y(location::geometry)', 'lng']
+            'location'
+
+            // ['ST_X(location::geometry)', 'lat'], 
+            // ['ST_Y(location::geometry)', 'lng']
           ], 
           where: {
             [Op.and]: [
@@ -195,7 +205,6 @@ module.exports = class UsersRepository {
                 Sequelize.col('location'),
                 point.fn,
               5000.0), true),
-
               {
                 location: { [Op.ne]: null } 
               }
@@ -205,10 +214,12 @@ module.exports = class UsersRepository {
         })
         .then((users) => 
         {
+          console.log(users)
           resolve(users);
         })
         .catch((err) => 
         { 
+          console.log(err)
           reject(err);
         });
       });
