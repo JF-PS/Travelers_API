@@ -9,9 +9,9 @@ module.exports = class MessagesRepository {
       Message.create(object).then((message) => {
         resolve(message);
       })
-        .catch((err) => {
-          reject(err);
-        });
+      .catch((err) => {
+        reject(err);
+      });
     });
   }
 

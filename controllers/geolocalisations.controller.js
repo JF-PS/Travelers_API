@@ -1,12 +1,10 @@
 module.exports = (repository) => ({
-  
+
     async allowLoc(req, res) {
-      await repository.allowLoc(req.body).then((result) =>
-      { 
-        res.status(201).send(result)
+      await repository.allowLoc(req.body).then((seetings) => {
+        res.status(200).send(seetings)
       })
-      .catch((err) => 
-      {
+      .catch((err) => {
         res.status(500).send(err)
       });
     },

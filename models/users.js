@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
       });
       Users.hasOne(models.Geolocalisations, {
         foreignKey: 'user_id',
-        as: 'user'
+        as: 'geolocalisation'
       });
 
       // BelongTo :

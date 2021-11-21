@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require('../models').Users;
+const Geolocalisation = require('../models').Geolocalisations;
 const secret = 'test';
 const { Sequelize, Op, QueryTypes } = require("sequelize");
 
@@ -115,7 +116,10 @@ module.exports = class UsersRepository {
 
     async getByEmail(email) {
         return await new Promise((resolve, reject) => {
-            User.findOne({ where: {email: email} }).then((user) => 
+            User.findOne({ 
+              include: [{ model: Geolocalisation, as: 'geolocalisation'}],
+              where: {email: email} 
+            }).then((user) => 
             {
               resolve(user);
             })
