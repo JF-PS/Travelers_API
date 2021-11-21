@@ -46,6 +46,7 @@ io.on('connect', (socket) => {
     // console.log(`a user is disconnected`.red.bold);
   });
   socket.on('SendMessage', ({ name, message, userId, chatId, recipientId }) => {
+    console.log(`name: ${name} message: ${message} userId: ${userId} chatId: ${chatId} recipientId: ${recipientId}`)
     messagesRepository.createMessage({
       content: message,
       user_id: userId,
