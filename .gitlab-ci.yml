@@ -1,0 +1,61 @@
+stages: 
+  - build
+  - test
+  - quality
+
+variables:
+    BYPASS_BUILD: "true"
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+    SONAR_ANALYSIS_ARGS: >-
+        -Dsonar.host.url=${SONAR_HOST_URL}
+        -Dsonar.organization=hugobarsacq
+        -Dsonar.projectKey=hugobarsacq_allo-voyageurs-server
+        -Dsonar.projectName=hugobarsacq_allo-voyageurs-server
+        -Dsonar.projectBaseDir=${CI_PROJECT_DIR}
+        -Dsonar.sources=${SONAR_SOURCE_DIR}
+        -Dsonar.exclusions=${SONAR_EXCLUSIONS}
+        -Dsonar.sourceEncoding=UTF-8
+
+
+build_app:
+    stage: build
+    image: node:15
+    script: 
+        - npm install
+    artifacts:
+        expire_in: 1 hour
+        paths:
+            - bin/www/
+
+    rules: 
+        - if: '$BYPASS_BUILD == "true"'
+
+test_app:
+  stage: test
+  image: node:15
+  script:
+    - npm install
+    - npm test
+  rules: 
+    - if: '$BYPASS_BUILD == "true"'
+
+sonarcloud-check:
+    stage: quality
+    image:
+        name: sonarsource/sonar-scanner-cli:latest
+        entrypoint: [""]
+    cache:
+        key: "${CI_JOB_NAME}"
+        paths:
+            - .sonar/cache
+    script:
+        - sonar-scanner $SONAR_ANALYSIS_ARGS
+
+    rules:
+        - if: '$BYPASS_BUILD == "true" && ($CI_COMMIT_BRANCH == "main" ||$CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == "gitlab-ci")'
+    variables:
+        SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar" # Defines the location of the analysis task cache
+        GIT_DEPTH: "0" # Tells git to fetch all the branches of the project, required by the analysis task
+    artifacts:
+        expire_in: 1 hour

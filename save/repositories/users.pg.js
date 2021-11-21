@@ -30,29 +30,6 @@ module.exports = class UsersRepository {
         }
     }
 
-    async signOut(object) {
-
-      const { email, password } = object;
-
-      try {
-        const currentUser = await this.getByEmail(email);
-    
-        if (!currentUser) return { message: "User doesn't exist" };
-    
-        const isPasswordCorrect = await this.checkPassword(password, currentUser.password);
-
-        if (!isPasswordCorrect) return { message: "Invalid credentials" };
-    
-        const token = await this.createToken(currentUser).destroy;
-    
-        return { result: currentUser, token};
-      } 
-      catch (err) 
-      {
-        return { message: "Something went wrong" };
-      }
-  }
-
     async signUp(object) {
         const { first_name, last_name, email, password, phone, role } = object;
   
@@ -147,10 +124,6 @@ module.exports = class UsersRepository {
         return jwt.sign({ email: user.email, id: user.id }, secret, { expiresIn: "1h" });
     }
 
-    async deleteToken(user) {
-      return jwt.destroy(user.token)
-  }
-
     async updateLocation(id, location) {
       console.log("********* Update Location ********");
       console.log(id);
@@ -166,8 +139,6 @@ module.exports = class UsersRepository {
           })
           .catch((err) => 
           { 
-            console.log("=====================================")
-            console.log(err);
             reject(err);
           });
       });
@@ -198,6 +169,7 @@ module.exports = class UsersRepository {
 
             ]
           }            
+             
         })
         .then((users) => 
         {
@@ -216,9 +188,5 @@ module.exports = class UsersRepository {
       if (!user) return { message: "User doesn't exist" };
 
       return await user.update(fieldToUpdate);
-    }
-
-    async sum(a, b) {
-      return a + b;
     }
 }

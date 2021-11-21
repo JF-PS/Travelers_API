@@ -31,9 +31,6 @@ const annonceRoutes = require('./routes/annonces.route');
 const chatRoutes = require('./routes/chats.route');
 const messageRoutes = require('./routes/messages.route');
 
-var swaggerUi = require('swagger-ui-express');
-var swaggerDocument = require('./swagger.json');
-
 const usersRepository = new UsersRepository();
 const geolocalisationsRepository = new GeolocalisationsRepository();
 const spots_publicationsRepository = new Spots_PublicationsRepository();
@@ -42,22 +39,32 @@ const chatsRepository = new ChatsRepository();
 const messagesRepository = new MessagesRepository();
 
 io.on('connect', (socket) => {
+
+ console.log(`=================================== Web Socket =======================================`.blue.bold);
+  // console.log(socket);
+  console.log(`a user is connected`.green.bold);
   socket.on('disconnect', () => {
-    // console.log(`a user is disconnected`.red.bold);
+    console.log(`a user is disconnected`.red.bold);
   });
-  socket.on('SendMessage', ({ name, message, userId, chatId, recipientId }) => {
+  socket.on('message', ({ name, message, userId, chatId, recipientId }) => {
+    console.log(`message recu : ${message}`.magenta.bold);
     messagesRepository.createMessage({
       content: message,
       user_id: userId,
       chat_id: chatId,
       recipient_id: recipientId
     });
-    io.emit('message', { name, message, userId, chatId, recipientId });
+
+    io.emit('message', { name, message });
+    console.log(name)
+    
   });
+
   socket.on('sendLocation', ({ id, lat, lng }) => {
     usersRepository.updateLocation(id, { lat, lng })
     io.emit('location', { id, lat, lng });
   });
+
 });
 
 const cookieParser = require('cookie-parser');
@@ -76,8 +83,6 @@ app.use('/spots_publications', spot_publicationRoutes(express, spots_publication
 app.use('/annonces', annonceRoutes(express, annoncesController(annoncesRepository)));
 app.use('/chats', chatRoutes(express, chatsController(chatsRepository)));
 app.use('/messages', messageRoutes(express, messagesController(messagesRepository)));
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
 
 server.listen(port, () => {
   var desc = "Adresse du serveur: ";

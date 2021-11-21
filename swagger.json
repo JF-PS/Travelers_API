@@ -1,0 +1,595 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "description": "Allô Voyageur is an application for the vanlifers community. Its advantage: the mutual aid ! Its connect the closest travellers to help each other according to their needs. Also, they can put their vehicle for rent or for sale. Finally, they will be able to reveal to the community some place to not to be missed!",
+      "version": "1.0.0",
+      "title": "Swagger Allô Voyageur"
+    },
+    "host": "localhost:4000",
+    "basePath": "",
+    "tags": [
+      {
+        "name": "user",
+        "description": "Operations about users"
+      },
+      {
+        "name": "geolocalisation",
+        "description": "Operation about geolocalisation"
+      },
+      {
+        "name": "spot",
+        "description": "Operations about spots"
+      }
+    ],
+    "schemes": [
+      "http",
+      "https"
+    ],
+    "paths": {
+      "/users/signup": {
+        "post": {
+          "tags": [
+            "user"
+          ],
+          "summary": "Create a new user",
+          "description": "",
+          "operationId": "createUsers",
+          "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "produces": [
+            "application/xml",
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Created user object",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/signup"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Successful operation"
+            },
+            "405": {
+              "description": "Invalid input"
+            }
+          }
+        }
+      },
+      "/users/signin": {
+        "post": {
+          "tags": [
+            "user"
+          ],
+          "summary": "Connect an user",
+          "description": "",
+          "operationId": "connectUser",
+          "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "produces": [
+            "application/xml",
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Connected user object",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/signin"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Successful operation"
+            },
+            "405": {
+              "description": "Invalid input"
+            }
+          }
+        }
+      },
+      "/users/travelersArround/{latitude}/{longitude}": {
+        "get": {
+          "tags": [
+            "user"
+          ],
+          "summary": "Get travelers around",
+          "description": "",
+          "operationId": "getTravelersAround",
+          "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "produces": [
+            "application/xml",
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "latitude",
+              "in": "path",
+              "description": "latitude of user that needs to be updated",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "longitude",
+              "in": "path",
+              "description": "longitude of user that needs to be updated",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200  ": {
+              "description": "Successful operation"
+            },
+            "405": {
+              "description": "Invalid input"
+            }
+          }
+        }
+      },
+      "/users/updateuser/{id}": {
+        "put": {
+          "tags": [
+            "user"
+          ],
+          "summary": "Update an user",
+          "description": "",
+          "operationId": "updateUser",
+          "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "produces": [
+            "application/xml",
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of user that needs to be updated",
+              "required": true,
+              "type": "integer",
+              "format": "int64"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Updated user object",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/updateuser"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Successful operation"
+            },
+            "405": {
+              "description": "Invalid input"
+            }
+          }
+        }
+      },
+      "/users/{id}": {
+        "put": {
+          "tags": [
+            "user"
+          ],
+          "summary": "Update user location",
+          "description": "",
+          "operationId": "updateUserLocation",
+          "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "produces": [
+            "application/xml",
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of the user who needs to update his location",
+              "required": true,
+              "type": "integer",
+              "format": "int64"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Updated user location object",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/updateLocation"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Successful operation"
+            },
+            "405": {
+              "description": "Invalid input"
+            }
+          }
+        }
+      },
+      "/users/deleteuser/{id}": {
+        "delete": {
+          "tags": [
+            "user"
+          ],
+          "summary": "Delete an user",
+          "description": "",
+          "operationId": "deleteUser",
+          "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "produces": [
+            "application/xml",
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of user that needs to be deleted",
+              "required": true,
+              "type": "integer",
+              "format": "int64"
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Successful operation"
+            },
+            "405": {
+              "description": "Invalid input"
+            }
+          }
+        }
+      },
+      "/spots_publications/createspot": {
+        "post": {
+          "tags": [
+            "spot"
+          ],
+          "summary": "Create a spot",
+          "description": "",
+          "operationId": "createSpot",
+          "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "produces": [
+            "application/xml",
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Created spots object",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/createspot"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Successful operation"
+            },
+            "405": {
+              "description": "Invalid input"
+            }
+          }
+        }
+      },
+      "/spots_publications/{id}": {
+        "put": {
+          "tags": [
+            "spot"
+          ],
+          "summary": "Update spot location",
+          "description": "",
+          "operationId": "updateSpotLocation",
+          "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "produces": [
+            "application/xml",
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of the spot which needs to update his location",
+              "required": true,
+              "type": "integer",
+              "format": "int64"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Updated spot location object",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/updateLocation"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Successful operation"
+            },
+            "405": {
+              "description": "Invalid input"
+            }
+          }
+        }
+      },
+      "/spots_publications/updatespot_publication/{id}": {
+        "put": {
+          "tags": [
+            "spot"
+          ],
+          "summary": "Update a spot",
+          "description": "",
+          "operationId": "updateSpot",
+          "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "produces": [
+            "application/xml",
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of spot that needs to be updated",
+              "required": true,
+              "type": "integer",
+              "format": "int64"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Updated spot object",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/updatespot"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Successful operation"
+            },
+            "405": {
+              "description": "Invalid input"
+            }
+          }
+        }
+      },
+      "/spots_publications/deletespot_publication/{id}": {
+        "delete": {
+          "tags": [
+            "spot"
+          ],
+          "summary": "Delete a spot",
+          "description": "",
+          "operationId": "deleteSpot",
+          "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "produces": [
+            "application/xml",
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of spot that needs to be deleted",
+              "required": true,
+              "type": "integer",
+              "format": "int64"
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Successful operation"
+            },
+            "405": {
+              "description": "Invalid input"
+            }
+          }
+        }
+      },
+      "/geolocalisations/allowloc": {
+        "post": {
+          "tags": [
+            "geolocalisation"
+          ],
+          "summary": "Allow location",
+          "description": "",
+          "operationId": "allowLocation",
+          "consumes": [
+            "application/json",
+            "application/xml"
+          ],
+          "produces": [
+            "application/xml",
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Updated spot object",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/allowloc"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Successful operation"
+            },
+            "405": {
+              "description": "Invalid input"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "signup": {
+        "type": "object",
+        "properties": {
+          "first_name": {
+            "type": "string"
+          },
+          "last_name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "confirmPassword": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "signUp"
+        }
+      },
+      "signin": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "signIn"
+        }
+      },
+      "updateuser": {
+        "type": "object",
+        "properties": {
+          "first_name": {
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "updateUser"
+        }
+      },
+      "updateLocation": {
+        "type": "object",
+        "properties": {
+          "lat": {
+            "type": "string"
+          },
+          "lng": {
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "updateLocation"
+        }
+      },
+      "updatespot": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "updateSpot"
+        }
+      },
+      "createspot": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "adresse": {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "xml": {
+          "name": "createSpot"
+        }
+      },
+      "allowloc": {
+        "type": "object",
+        "properties": {
+          "authorization": {
+            "type": "boolean"
+          },
+          "start_date": {
+            "type": "string"
+          },
+          "end_date":  {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "xml": {
+          "name": "createSpot"
+        }
+      }
+    }
+  }
