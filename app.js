@@ -59,6 +59,15 @@ io.on('connect', (socket) => {
     usersRepository.updateLocation(id, { lat, lng })
     io.emit('location', { id, lat, lng });
   });
+  socket.on('sendBlockLocation', ({ user_id, authorization, start_date, end_date }) => {
+    geolocalisationsRepository.allowLoc({
+      user_id,
+      authorization,
+      start_date,
+      end_date
+    });
+    io.emit('hideLocation', { user_id, start_date, end_date });
+  });
 });
 
 const cookieParser = require('cookie-parser');
