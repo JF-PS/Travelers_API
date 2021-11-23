@@ -60,12 +60,6 @@ io.on('connect', (socket) => {
     io.emit('location', { id, lat, lng });
   });
   socket.on('sendBlockLocation', ({ user_id, authorization, start_date, end_date }) => {
-    geolocalisationsRepository.allowLoc({
-      user_id,
-      authorization,
-      start_date,
-      end_date
-    });
     io.emit('hideLocation', { user_id, start_date, end_date });
   });
 });
