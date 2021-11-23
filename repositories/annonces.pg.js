@@ -53,8 +53,6 @@ module.exports = class AnnoncesRepository {
             })
             .catch((err) => 
             { 
-              console.log("========================================================================================================================");
-              console.log(err);
               reject(err);
             });
         });
@@ -145,8 +143,6 @@ module.exports = class AnnoncesRepository {
           })
           .catch((err) => 
           { 
-            console.log("========================================================================================================================");
-            console.log(err);
             reject(err);
           });
       });

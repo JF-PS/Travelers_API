@@ -56,14 +56,12 @@ module.exports = class Spots_PublicationsRepository {
         return await new Promise((resolve, reject) => {
             this.getOne(id).then((spot_publication) => 
             {
-              console.log(spot_publication);
               resolve(
                 user.update({ location: point })
               );
             })
             .catch((err) => 
             { 
-              console.log(err);
               reject(err);
             });
         });
@@ -71,7 +69,6 @@ module.exports = class Spots_PublicationsRepository {
 
       async deleteSpot_Publication(id) {
         try{
-          console.log(id);
           const spot_publication = await this.getById(id);
           if (!spot_publication) return { message: "Spot publication doesn't exist" };
     
@@ -81,7 +78,6 @@ module.exports = class Spots_PublicationsRepository {
               resolve(
                   spot_publication.destroy()
               );
-              console.log("Spot publication with id %d deleted", spot_publication.id);
             })
             .catch((err) => 
             { 
@@ -96,7 +92,6 @@ module.exports = class Spots_PublicationsRepository {
       }    
 
       async getById(id) {
-        console.log(id);
         return await new Promise((resolve, reject) => {
           Spot_Publication.findOne({ where: {id: id} }).then((spot_publication) => 
           {

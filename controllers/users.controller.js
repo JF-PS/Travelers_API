@@ -17,7 +17,6 @@ module.exports = (repository) => ({
   },
 
   async updateLocation(req, res) {
-    console.log(req.body)
     await repository.updateLocation(req.params.id, req.body).then((user) =>
     { 
       res.status(200).send(user)
@@ -51,8 +50,6 @@ module.exports = (repository) => ({
   },
 
   async signUp(req, res) {
-    console.log("=============================================================")
-    console.log(req)
     await repository.signUp(req.body).then((result) =>
     { 
       res.status(201).send(result)
