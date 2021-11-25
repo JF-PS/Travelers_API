@@ -1,21 +1,22 @@
 module.exports = (express, controller) => {
-    const router = express.Router();
+  const router = express.Router();
 
-    router.get('/travelersArround/:lat/:lng', controller.getTravelersAround);
+  router.get(
+    "/travelersArround/:lat/:lng/:radius",
+    controller.getTravelersAround
+  );
 
-    router.post("/signin", controller.signIn);
+  router.post("/signin", controller.signIn);
 
-    router.post("/signup", controller.signUp);
+  router.post("/signup", controller.signUp);
 
-    router.post("/signout", controller.signOut);
+  router.post("/signout", controller.signOut);
 
-    router.delete("/deleteuser/:id", controller.deleteUser);
+  router.delete("/deleteuser/:id", controller.deleteUser);
 
-    router.put("/updateuser/:id", controller.updateUser);
+  router.put("/updateuser/:id", controller.updateUser);
 
-    router.put('/:id', controller.updateLocation);
+  router.put("/:id", controller.updateLocation);
 
-    return router;
+  return router;
 };
-
-

@@ -164,7 +164,7 @@ module.exports = class UsersRepository {
     });
   }
 
-  async getTravelersAround(lat, lng) {
+  async getTravelersAround(lat, lng, radius) {
     const point = Sequelize.fn(`POINT(${lat} ${lng})`);
     return await new Promise((resolve, reject) => {
       User.findAll({
@@ -182,6 +182,7 @@ module.exports = class UsersRepository {
           "first_name",
           "last_name",
           "location",
+
           // ['ST_X(location::geometry)', 'lat'],
           // ['ST_Y(location::geometry)', 'lng']
         ],
@@ -192,7 +193,7 @@ module.exports = class UsersRepository {
                 "ST_DWithin",
                 Sequelize.col("location"),
                 point.fn,
-                5000.0
+                radius
               ),
               true
             ),

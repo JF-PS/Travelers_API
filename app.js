@@ -64,9 +64,6 @@ io.on("connect", (socket) => {
   socket.on(
     "sendBlockLocation",
     ({ user_id, authorization, start_date, end_date }) => {
-      console.log("===============================");
-      console.log(user_id, authorization, start_date, end_date);
-      console.log("===============================");
       io.emit("hideLocation", { user_id, start_date, end_date });
     }
   );

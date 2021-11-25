@@ -1,15 +1,18 @@
 module.exports = (express, controller) => {
-    const router = express.Router();
+  const router = express.Router();
 
-    router.post("/createspot", controller.createSpot);
+  router.get("/spotsArround/:lat/:lng/:radius", controller.getSpotsAround);
 
-    router.put('/:id', controller.updateLocation);
+  router.post("/createspot", controller.createSpot);
 
-    router.delete("/deletespot_publication/:id", controller.deleteSpot_Publication);
+  router.put("/:id", controller.updateLocation);
 
-    router.put("/updatespot_publication/:id", controller.updateSpot_Publication);
+  router.delete(
+    "/deletespot_publication/:id",
+    controller.deleteSpot_Publication
+  );
 
-    return router;
+  router.put("/updatespot_publication/:id", controller.updateSpot_Publication);
+
+  return router;
 };
-
-
