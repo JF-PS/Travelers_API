@@ -53,7 +53,29 @@ io.on("connect", (socket) => {
       chat_id: chatId,
       recipient_id: recipientId,
     });
-    io.emit("message", { name, message, userId, chatId, recipientId });
+
+    console.log(`**********************************************`.blue);
+    console.log(`messageTo_user${userId}dest${recipientId}`.green);
+    console.log(`messageTo_user${recipientId}dest${userId}`.green);
+    console.log(`**********************************************`.blue);
+
+    io.emit(`messageTo_user${userId}dest${recipientId}`, {
+      name,
+      message,
+      userId,
+      chatId,
+      recipientId,
+    });
+    io.emit(`messageTo_user${recipientId}dest${userId}`, {
+      name,
+      message,
+      userId,
+      chatId,
+      recipientId,
+    });
+    io.emit(`messageTo${recipientId}`, {
+      chatId,
+    });
   });
 
   socket.on("sendLocation", ({ id, lat, lng }) => {

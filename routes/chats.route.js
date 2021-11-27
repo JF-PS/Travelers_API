@@ -1,7 +1,8 @@
 module.exports = (express, controller) => {
   const router = express.Router();
 
-  router.post('/', controller.create);
+  router.get("/:id", controller.getUserChats);
+  router.post("/", controller.create);
 
   return router;
 };
