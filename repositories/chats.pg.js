@@ -30,7 +30,7 @@ module.exports = class ChatsRepository {
             include: [{ model: User, as: "user" }],
           },
         ],
-        order: [["createdAt", "ASC"]],
+        order: [["createdAt", "DESC"]],
       })
         .then((chats) => {
           resolve(chats);

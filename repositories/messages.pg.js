@@ -42,7 +42,7 @@ module.exports = class MessagesRepository {
             },
           ],
         },
-        order: [["createdAt", "DESC"]],
+        order: [["createdAt", "ASC"]],
       })
         .then((messages) => {
           resolve(messages);
